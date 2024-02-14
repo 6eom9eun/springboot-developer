@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.kwakbeomgeun.springbootdeveloper.domain.Article;
 import me.kwakbeomgeun.springbootdeveloper.dto.AddArticleRequest;
 import me.kwakbeomgeun.springbootdeveloper.dto.ArticleResponse;
+import me.kwakbeomgeun.springbootdeveloper.dto.UpdateArticleRequest;
 import me.kwakbeomgeun.springbootdeveloper.service.BlogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class BlogApiController {
     private final BlogService blogService;
 
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request) {
-        Article savedArticle = blogService.save(request);
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest req) {
+        Article savedArticle = blogService.save(req);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedArticle);
@@ -41,5 +42,11 @@ public class BlogApiController {
     public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
         blogService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest req) {
+        Article updatedArticle = blogService.update(id, req);
+        return ResponseEntity.ok().body(updatedArticle);
     }
 }
