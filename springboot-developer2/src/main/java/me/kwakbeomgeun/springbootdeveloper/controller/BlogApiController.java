@@ -36,4 +36,10 @@ public class BlogApiController {
         Article article = blogService.findById(id);
         return ResponseEntity.ok().body(new ArticleResponse(article));
     }
+
+    @DeleteMapping("/api/articles/{id}") // URL 경로에서 값 추출
+    public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
+        blogService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }
